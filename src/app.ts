@@ -1,6 +1,7 @@
 import express, {Application, Request, Response} from "express";
 import { env } from "./config/env";
 import carRoutes from './routes/cars';
+import { connectDB } from "./config/database";
 
 const PORT = env.port;
 
@@ -30,7 +31,11 @@ app.use((req, _res, next) => {
     next();
 });
 //comment
-app.listen(PORT, () => {
-    console.log("Server is running on port", PORT);
-    });
+const startServer = async () => {
+  await connectDB();
 
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+startServer();
