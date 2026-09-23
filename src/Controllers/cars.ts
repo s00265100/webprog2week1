@@ -1,4 +1,8 @@
 import {Request, Response} from "express";
+import { CarService } from '../models/cars';
+
+const carService = new CarService();
+
 export class CarController{
    getCars = async (_req: Request, res: Response): Promise<void> => { 
 
