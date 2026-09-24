@@ -3,10 +3,11 @@ import { env } from "./config/env";
 import carRoutes from './routes/cars';
 import { connectDB } from "./config/database";
 
+import { authenticateKey } from './middleware/auth.middleware';
 const PORT = env.port;
 
 const app: Application = express();
-
+app.use(authenticateKey);
 app.use('/api/v1/cars', carRoutes); 
 app.use(express.json()); 
 
