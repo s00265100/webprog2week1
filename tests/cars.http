@@ -5,6 +5,7 @@
 
 POST {{endpoint}} HTTP/1.1
 content-type: application/json
+x-api-key: blahblah
 
 {
     "make": "bmw",
@@ -15,37 +16,29 @@ content-type: application/json
 @newCar = {{postACar.response.body._id}}
 
 ###
+GET {{endpoint}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+###
 GET {{endpoint}}/{{newCar}} HTTP/1.1
 content-type: application/json
+x-api-key: blahblah
 
- 
+###
+DELETE {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
 
-### 
+###
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
 
-GET  {{endpoint}}/sillycarID HTTP/3.0 
-
-content-type: application/json 
-
- 
- 
-
-### 
-
- 
-
-DELETE  {{endpoint}}/sillycarID HTTP/3.0 
-
-content-type: application/json 
-
- 
-
-### 
-
- 
-
-PUT  {{endpoint}}/sillycarID HTTP/3.0 
-
-content-type: application/json 
+{
+    "make": "bmw",
+    "model": "3 series"
+}
 
 
  
