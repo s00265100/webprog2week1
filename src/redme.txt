@@ -1,5 +1,12 @@
 npm run build
 npm start 
+Set your Git username and email:
+
+    git config --global user.name "s00265100"
+
+    git config --global user.email "s00265100@atu.ie"
+
+
 s00265100_db_user
 k1pxTLXpms9T06CU
 https://downloads.mongodb.com/compass/mongodb-compass-1.50.0-win32-x64.zip
