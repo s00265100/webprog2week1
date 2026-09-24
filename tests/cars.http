@@ -7,8 +7,8 @@ POST {{endpoint}} HTTP/1.1
 content-type: application/json
 
 {
-    "make": "make2",
-    "model": "model2"
+    "make": "bmw",
+    "model": "3 series"
 }
 
 ###
