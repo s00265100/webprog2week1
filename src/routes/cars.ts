@@ -2,13 +2,16 @@ import { Router } from 'express';
 
 import { CarController } from '../Controllers/cars'; 
 
+import {validate} from '../middleware/validate.middleware';
+import {createcarzSchema}  from '../models/cars';
+
  
 
 const router = Router(); 
 
 const carController = new CarController(); 
 
- 
+router.post('/', validate(createcarzSchema), carController.createCar);
 
 router.get('/', carController.getCars); 
 
