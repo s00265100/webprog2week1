@@ -5,7 +5,7 @@ export const authenticateKey = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
-
+//comment
     const apiKey = req.headers['x-api-key'];
 
     if (!apiKey) {
