@@ -47,6 +47,7 @@ export class CarController {
 
     createCar = async (req: Request, res: Response): Promise<void> => {
         try {
+            console.log(req.body); // Log the request body for debugging
             const newCar = await carService.createCar(req.body);
 
             res.status(201).json(newCar);
@@ -85,14 +86,29 @@ export class CarController {
         }
     };
 
+deleteCar = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const id = Array.isArray(req.params.id)
+            ? req.params.id[0]
+            : req.params.id;
 
-    deleteCar = async (_req: Request, res: Response): Promise<void> => {
+        const deletedCar = await carService.deleteCar(id);
 
-        res.status(200).json({
-            success: true,
-            data: `this is just dummy for now a response to the delete car by id request with car id ${_req.params.id}`
+        if (!deletedCar) {
+            res.status(404).json({
+                message: 'Car not found'
+            });
+            return;
+        }
+
+        res.status(200).json(deletedCar);
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error deleting car',
+            error
         });
-
-    };
+    }
+};
 
 }
