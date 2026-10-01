@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { CarService } from '../services/cars';
+import { createcarzSchema } from '../models/cars';
+import { request } from "http";
 
 const carService = new CarService();
 
@@ -58,6 +60,14 @@ export class CarController {
                 error
             });
         }
+        const validation =createcarzSchema.safeParse(req.body); 
+       console.log 
+         if (!validation.success){
+    res.status(400).json({message:'Invalid car data',errors: validation.error.issues});
+       return;
+
+}
+
     };
 
 
