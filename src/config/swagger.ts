@@ -1,7 +1,5 @@
-import  swaggerJSDoc  from 'swagger-jsdoc';   
-
-
-const options: swaggerJSDoc.Options = {
+import swaggerJSDoc from 'swagger-jsdoc';
+const options: any = {
     definition: {
         openapi: '3.0.0',
         info: {
@@ -11,10 +9,11 @@ const options: swaggerJSDoc.Options = {
         },
         servers: [
             {
-                url: "/api/v1",
+                url: '/api/v1',
             },
         ],
     },
-    apis: ['./src/controllers/*.ts']
+        apis: ['./src/controllers/*.ts', './src/models/*.ts'],
 };
+
 export const swaggerSpec = swaggerJSDoc(options);
