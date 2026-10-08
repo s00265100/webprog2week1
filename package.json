@@ -19,12 +19,13 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node build/app.js",
-    "dev": "tsx watch src/app.ts",
-    "typecheck": "tsc --noEmit"
-  },
+  "build": "tsc",
+  "start": "node build/server.js",
+  "dev": "tsx watch src/server.ts",
+  "typecheck": "tsc --noEmit",
+  "test": "vitest run",
+  "test:watch": "vitest"
+},
   "dependencies": {
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",

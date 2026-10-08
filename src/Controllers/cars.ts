@@ -59,6 +59,9 @@ export class CarController {
 
     getCarById = async (req: Request, res: Response): Promise<void> => {
         try {
+
+
+            
             const id = Array.isArray(req.params.id)
                 ? req.params.id[0]
                 : req.params.id;
