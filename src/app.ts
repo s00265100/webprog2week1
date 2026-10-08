@@ -8,21 +8,21 @@ import {swaggerSpec} from './config/swagger';
 import { authenticateKey } from './middleware/auth.middleware';
 const PORT = env.port;
 
-const app: Application = express();
+export const app: Application = express();
 app.use(
 '/api-docs',
 swaggerUi.serve,
 swaggerUi.setup(swaggerSpec)
 );
 
-app.use(authenticateKey);
+
 app.use(express.json()); 
-app.use('/api/v1/cars', carRoutes); 
+app.use('/api/v1/cars',authenticateKey, carRoutes); 
 
 
 app.get("/ping", async (_req : Request, res: Response) => {
     res.json({
-    message: "hello from Mansura "
+    message: "hello from Mansura"
     });
 });
 app.get('/bananas', async (_req : Request, res: Response) => {
@@ -40,12 +40,3 @@ app.use((req, _res, next) => {
     console.log(`${req.method} ${req.originalUrl}`);
     next();
 });
-//comment
-const startServer = async () => {
-  await connectDB();
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
-startServer();
