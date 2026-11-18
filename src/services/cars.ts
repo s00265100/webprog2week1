@@ -1,5 +1,6 @@
 import { CarModel, ICar } from '../models/cars';
 import { HydratedDocument } from 'mongoose';
+import { NotFoundError } from '../utils/apperros';
 
 export class CarService {
 
@@ -7,8 +8,12 @@ export class CarService {
         return await CarModel.find().lean();
     }
 
-    async getCarById(id: string): Promise<ICar | null> {
-        return await CarModel.findById(id).lean();
+    async getCarById(id: string): Promise<ICar> {
+        const car = await CarModel.findById(id).lean();
+        if (!car) {
+            throw new NotFoundError('Car');
+        }
+        return car;
     }
 
     async createCar(

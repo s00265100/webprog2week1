@@ -35,8 +35,12 @@ app.get('/Mangos', async (_req : Request, res: Response) => {
     message: "I love Mangos",
     });
 });
+app.get("/pong", (_req : Request, res: Response) => {
+    console.log("Recived request to /pong");
+    throw new Error("This is a tesSimulated error in /pong route");
+}),
 
-app.use((req, _res, next) => {  
-    console.log(`${req.method} ${req.originalUrl}`);
-    next();
-});
+app.get ("/pung",async (_req : Request, res: Response) => {
+    console.log("Recived request to /pung");
+    throw new Error("Simulated error in /pung route");
+})
