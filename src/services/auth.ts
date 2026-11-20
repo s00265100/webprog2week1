@@ -88,17 +88,19 @@ export class AuthService {
    
     return jwt.verify(token, env.jwtSecret, { algorithms: ['HS256'] }) as TokenPayload;
   }
-}
 
-/*
-  async getUserById(id: string): Promise<PublicUser> {
+
+async getUserById(id: string): Promise<PublicUser> {
     const user = await UserModel.findById(id).lean();
-    if (!user) throw new UnauthorizedError();
-    return { _id: user._id.toString(), name: user.name, email: user.email };
-  }
 
+    if (!user) {
+        throw new UnauthorizedError("User not found");
+    }
 
-
-
+    return {
+        _id: user._id.toString(),
+        name: user.name,
+        email: user.email
+    };
 }
-    */
+}
