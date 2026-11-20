@@ -1,54 +1,66 @@
+import express, {Application, Request, Response} from "express" ;
+import carRoutes from './routes/cars'
+import authRoutes from './routes/auth'
+import cors from 'cors';
 
-import express, { Application, Request, Response } from "express";
 
-import carRoutes from './routes/cars';
-
+//import { authenticateKey } from "./middleware/auth.middleware";
+import { logRequest } from "./middleware/logging.middleware";
+import { swaggerSpec } from "./config/swagger";
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './config/swagger';
+import { errorHandler } from "./middleware/error.middleware";
 
-import { errorHandler } from './middleware/error.middleware';
 
-import { authenticateKey } from './middleware/auth.middleware';
 
 export const app: Application = express();
 
+app.use(express.json());
+app.use(cors())
+
 app.use(
-    '/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec)
+'/api-docs',
+swaggerUi.serve,
+swaggerUi.setup(swaggerSpec)
 );
 
-app.use(express.json());
 
-app.use('/api/v1/cars', authenticateKey, carRoutes);
+// Middleware to authenticate API key
 
-app.get("/ping", async (_req: Request, res: Response) => {
+//app.use(authenticateKey);
+
+// Special code to add a delay - remove later
+
+app.use((_req, _res, next) => setTimeout(next, 2000));
+
+
+app.get("/ping", async (_req : Request, res: Response) => {
+    console.log("Received request to /ping");
     res.json({
-        message: "hello from Mansura"
+    message: "hello from Una",
     });
 });
 
-app.get('/bananas', async (_req: Request, res: Response) => {
-    res.json({
-        message: "this is bananas",
-    });
-});
-
-app.get('/Mangos', async (_req: Request, res: Response) => {
-    res.json({
-        message: "I love Mangos",
-    });
-});
-
-app.get("/pong", (_req: Request, _res: Response) => {
+app.get("/pong", (_req : Request, _res: Response) => {
     console.log("Received request to /pong");
     throw new Error("Simulated error in /pong route");
 });
 
-app.get("/pung", async (_req: Request, _res: Response) => {
+app.get("/pung", async (_req : Request, _res: Response) => {
     console.log("Received request to /pung");
-    throw new Error("Simulated error in /pung route");
+     throw new Error("Simulated error in /pung route");
 });
 
+app.get('/bananas', logRequest, async (_req : Request, res: Response) => {
+    res.json({
+    message: "this is bananas",
+    });
+});
 
-app.use(errorHandler);
+app.use('/api/v1/cars',  carRoutes);
+app.use('/api/v1/auth', authRoutes);
+
+app.get('/api-docs.json', (_req, res) => {
+res.json(swaggerSpec);
+});
+
+app.use(errorHandler)
