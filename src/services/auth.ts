@@ -54,7 +54,7 @@ export class AuthService {
   
   async login(email: string, password: string): Promise<string> {
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).select('+passwordHash');
 
     if (!user) {
       await argon2.verify(await dummyHash, password);

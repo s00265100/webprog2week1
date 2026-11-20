@@ -1,6 +1,43 @@
 import { Schema, model } from 'mongoose';
 import { z } from 'zod';
 
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     RegisterInput:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: Una
+ *         email:
+ *           type: string
+ *           example: una@example.com
+ *         password:
+ *           type: string
+ *           example: difficult password
+ *     LoginInput:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: una@example.com
+ *         password:
+ *           type: string
+ *           example: difficult password
+ */
+
+
+
 export const registerZSchema = z.object({
   body: z.object({
     name: z.string().min(1),
@@ -9,6 +46,7 @@ export const registerZSchema = z.object({
   }),
 });
 
+
 export const loginZSchema = z.object({
   body: z.object({
     email: z.email().toLowerCase(),
@@ -16,19 +54,23 @@ export const loginZSchema = z.object({
   }),
 });
 
+
+
+const userSchema = new Schema<IUser>(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique : true, lowercase: true, trim: true },
+    passwordHash: { type: String, required: true, select: false },
+  },
+  { timestamps: true }
+);
+
+
 export interface IUser {
   name: string;
   email: string;
   passwordHash: string;
 }
 
-const userSchema = new Schema<IUser>(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true },
-  },
-  { timestamps: true }
-);
 
 export const UserModel = model<IUser>('User', userSchema);
