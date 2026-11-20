@@ -35,7 +35,7 @@ describe("Cars API", () => {
       .delete(`/api/v1/cars/${carId}`)
       .set("x-api-key", "blahblah");
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(204);
   });
 
   it("cannot find the deleted car", async () => {

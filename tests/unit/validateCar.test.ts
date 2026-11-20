@@ -9,14 +9,16 @@ const validCar = {
 describe("Test Car Validation", () => {
 
   it("should pass for valid data", () => {
-    expect(() => createcarzSchema.parse(validCar)).not.toThrow();
+    expect(() => createcarzSchema.parse({ body: validCar })).not.toThrow();
   });
 
   it("should pass with no year", () => {
     expect(() =>
       createcarzSchema.parse({
-        ...validCar,
-        year: undefined
+        body: {
+          ...validCar,
+          year: undefined
+        }
       })
     ).not.toThrow();
   });
@@ -24,8 +26,10 @@ describe("Test Car Validation", () => {
   it("should fail with no model", () => {
     expect(() =>
       createcarzSchema.parse({
-        ...validCar,
-        model: undefined
+        body: {
+          ...validCar,
+          model: undefined
+        }
       })
     ).toThrow();
   });
@@ -33,8 +37,10 @@ describe("Test Car Validation", () => {
   it("should fail with no make", () => {
     expect(() =>
       createcarzSchema.parse({
-        ...validCar,
-        make: undefined
+        body: {
+          ...validCar,
+          make: undefined
+        }
       })
     ).toThrow();
   });
@@ -42,8 +48,10 @@ describe("Test Car Validation", () => {
   it("should fail if year is before 1950", () => {
     expect(() =>
       createcarzSchema.parse({
-        ...validCar,
-        year: 1949
+        body: {
+          ...validCar,
+          year: 1949
+        }
       })
     ).toThrow();
   });
@@ -51,8 +59,10 @@ describe("Test Car Validation", () => {
   it("should fail if year is not a number", () => {
     expect(() =>
       createcarzSchema.parse({
-        ...validCar,
-        year: "wrong year"
+        body: {
+          ...validCar,
+          year: "wrong year"
+        }
       })
     ).toThrow();
   });

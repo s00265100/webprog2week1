@@ -1,32 +1,33 @@
-import { Router } from 'express'; 
 
-import { CarController } from '../Controllers/cars'; 
+import { Router } from 'express';
 
-import {validate} from '../middleware/validate.middleware';
-import {createcarzSchema}  from '../models/cars';
+import { CarController } from '../Controllers/cars';
 
- 
+import { validate } from '../middleware/validate.middleware';
 
-const router = Router(); 
+import {
+    createcarzSchema,
+    updateCarZSchema,
+    carParamsSchema
+} from '../models/cars';
 
-const carController = new CarController(); 
+const router = Router();
 
+const carController = new CarController();
+
+// Get all carrs
+router.get('/', carController.getCars);
+
+// Get a car by ID
+router.get('/:id', validate(carParamsSchema), carController.getCarById);
+
+// Create a car
 router.post('/', validate(createcarzSchema), carController.createCar);
 
-//If I receive GET /cars, use getCars
-router.get('/', carController.getCars); 
+// Update a car
+router.put('/:id', validate(carParamsSchema), validate(updateCarZSchema), carController.updateCar);
 
- 
+// Delete a car
+router.delete('/:id', validate(carParamsSchema), carController.deleteCar);
 
-router.get('/:id', carController.getCarById); 
-//if someone sends post /car run create car
-
-router.post('/', carController.createCar); 
-
-router.put('/:id', carController.updateCar); 
-
-router.delete('/:id', carController.deleteCar); 
-
- 
-
-export default router; 
+export default router;

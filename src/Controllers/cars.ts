@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { CarService } from '../services/cars';
-import { createcarzSchema } from '../models/cars';
-
 
 const carService = new CarService();
 
@@ -23,16 +21,9 @@ export class CarController {
 
 
     getCars = async (_req: Request, res: Response): Promise<void> => {
-        try {
-            const cars = await carService.getAllCars();
-
-            res.status(200).json(cars);
-        } catch (error) {
-            res.status(500).json({
-                message: 'Error fetching cars',
-                error
-            });
-        }
+        
+        const cars = await carService.getAllCars();
+        res.status(200).json(cars);
     };
 /**
 * @openapi
@@ -58,31 +49,19 @@ export class CarController {
 
 
     getCarById = async (req: Request, res: Response): Promise<void> => {
-        try {
-
-
-            
+       
             const id = Array.isArray(req.params.id)
                 ? req.params.id[0]
                 : req.params.id;
 
             const car = await carService.getCarById(id);
 
-            if (!car) {
-                res.status(404).json({
-                    message: 'Car not found'
-                });
-                return;
-            }
+          
 
             res.status(200).json(car);
 
-        } catch (error) {
-            res.status(500).json({
-                message: 'Error fetching car',
-                error
-            });
-        }
+        
+        
     };
 /**
  * @openapi
@@ -129,99 +108,48 @@ export class CarController {
 
 
     createCar = async (req: Request, res: Response): Promise<void> => {
-        try {
-            console.log(req.body); // Log the request body for debugging
-            const newCar = await carService.createCar(req.body);
+        const newCar=await carService.createCar(req.body);
+        res.status(201).json(newCar);
 
-            res.status(201).json(newCar);
+        };
 
-        } catch (error) {
-            res.status(500).json({
-                message: 'Error inserting into MongoDB',
-                error
-            });
-        }
-        const validation =createcarzSchema.safeParse(req.body); 
-       console.log 
-         if (!validation.success){
-    res.status(400).json({message:'Invalid car data',errors: validation.error.issues});
-       return;
 
-}
-
-    };
 
 
     updateCar = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const id = Array.isArray(req.params.id)
-                ? req.params.id[0]
-                : req.params.id;
+        const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      const updatedCar = await carService.updateCar(id, req.body);
 
-            const updatedCar = await carService.updateCar(id, req.body);
 
-            if (!updatedCar) {
-                res.status(404).json({
-                    message: 'Car not found'
-                });
-                return;
-            }
-
-            res.status(200).json(updatedCar);
-
-        } catch (error) {
-            res.status(500).json({
-                message: 'Error updating car',
-                error
-            });
-        }
+      res.status(200).json(updatedCar);
     };
 
-    /**
-     * @openapi
-     * /cars/{id}:
-     *   delete:
-     *     summary: Delete a car by ID
-     *    tags:
-     *      - Cars 
-     *    parameters:   
-     *     - in: path
-     *       name: id
-     *      required: true
-     *    schema:
-     *      type: string
-     *   responses:
-     *    200:
-     *    description: Car deleted successfully
-     *   404:
-     *   description: Car not found
-     *  500:
-     *  description: Internal server error
-     */
-
+/**
+ * @openapi
+ * /cars/{id}:
+ *   delete:
+ *     summary: Delete a car by ID
+ *     tags:
+ *       - Cars
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Car deleted successfully
+ *       404:
+ *         description: Car not found
+ *       500:
+ *         description: Internal server error
+ */
 deleteCar = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const id = Array.isArray(req.params.id)
-            ? req.params.id[0]
-            : req.params.id;
+     const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+     await carService.deleteCar(id);
 
-        const deletedCar = await carService.deleteCar(id);
 
-        if (!deletedCar) {
-            res.status(404).json({
-                message: 'Car not found'
-            });
-            return;
-        }
-
-        res.status(200).json(deletedCar);
-
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error deleting car',
-            error
-        });
-    }
+      res.status(204).send();
 };
-
 }

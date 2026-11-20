@@ -5,7 +5,7 @@ const uri = env.mongoURI;
 
 export const connectDB = async (): Promise<void> => {
     try {
-        console.log(`Connecting to MongoDB at ${uri}`);
+        console.log(`Connecting to MongoDB `);
 
         const conn = await mongoose.connect(uri);
 
