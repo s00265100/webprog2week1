@@ -36,7 +36,7 @@ app.use((_req, _res, next) => setTimeout(next, 2000));
 app.get("/ping", async (_req : Request, res: Response) => {
     console.log("Received request to /ping");
     res.json({
-    message: "hello from Una",
+    message: "hello from Mansura",
     });
 });
 
