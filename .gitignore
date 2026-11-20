@@ -5,8 +5,7 @@ package-lock.json
 *.gz
 
 # build folder
-
 build
-npm init -y
 
-
+# environment variables
+.env
