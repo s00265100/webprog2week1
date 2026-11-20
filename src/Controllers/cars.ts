@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { CarService } from '../services/cars';
-import { createcarzSchema } from '../models/cars';
-import { request } from "http";
 
 const carService = new CarService();
 
@@ -126,28 +124,27 @@ export class CarController {
       res.status(200).json(updatedCar);
     };
 
-    /**
-     * @openapi
-     * /cars/{id}:
-     *   delete:
-     *     summary: Delete a car by ID
-     *    tags:
-     *      - Cars 
-     *    parameters:   
-     *     - in: path
-     *       name: id
-     *      required: true
-     *    schema:
-     *      type: string
-     *   responses:
-     *    200:
-     *    description: Car deleted successfully
-     *   404:
-     *   description: Car not found
-     *  500:
-     *  description: Internal server error
-     */
-
+/**
+ * @openapi
+ * /cars/{id}:
+ *   delete:
+ *     summary: Delete a car by ID
+ *     tags:
+ *       - Cars
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Car deleted successfully
+ *       404:
+ *         description: Car not found
+ *       500:
+ *         description: Internal server error
+ */
 deleteCar = async (req: Request, res: Response): Promise<void> => {
      const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
      await carService.deleteCar(id);
