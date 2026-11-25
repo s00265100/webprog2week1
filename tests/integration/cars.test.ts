@@ -1,6 +1,6 @@
 import request from "supertest";
 import { app } from "../../src/app";
-
+import { AuthService } from "../../src/services/auth";
 describe("Cars API", () => {
 
   let carId: string;
@@ -31,12 +31,19 @@ describe("Cars API", () => {
   });
 
   it("deletes the car", async () => {
-    const response = await request(app)
-      .delete(`/api/v1/cars/${carId}`)
-      .set("x-api-key", "blahblah");
+  const authService = new AuthService();
 
-    expect(response.status).toBe(204);
+  const token = authService.createToken({
+    sub: "test-user-id",
+    email: "test@example.com"
   });
+
+  const response = await request(app)
+    .delete(`/api/v1/cars/${carId}`)
+    .set("Authorization", `Bearer ${token}`);
+
+  expect(response.status).toBe(204);
+});
 
   it("cannot find the deleted car", async () => {
     const response = await request(app)

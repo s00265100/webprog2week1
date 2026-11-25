@@ -1,6 +1,6 @@
 
 import { Router } from 'express';
-
+import { authenticateJWT } from '../middleware/auth.middleware';
 import { CarController } from '../Controllers/cars';
 
 import { validate } from '../middleware/validate.middleware';
@@ -27,7 +27,7 @@ router.post('/', validate(createcarzSchema), carController.createCar);
 // Update a car
 router.put('/:id', validate(carParamsSchema), validate(updateCarZSchema), carController.updateCar);
 
-// Delete a car
-router.delete('/:id', validate(carParamsSchema), carController.deleteCar);
+// Deleete a car
+router.delete('/:id', authenticateJWT, validate(carParamsSchema), carController.deleteCar);
 
 export default router;
